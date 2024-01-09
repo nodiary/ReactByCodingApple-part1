@@ -45,6 +45,24 @@ function App() {
         <h4>{ 글제목[2] }</h4>
         <p>2월 17일 발행</p>
       </div>
+
+      <Modal></Modal>
+
+    </div>
+  );
+}
+/* 
+  1. 반복되는 html을 축약할 때
+  2. 큰 페이지들
+  3. 자주 변경되는 것들
+   -> 컴포넌트로 만들면 좋다.
+*/
+function Modal(){ //대문자 시작
+  return (
+    <div className="modal">
+      <h4>제목</h4>
+      <p>날짜</p>
+      <p>상세내용</p>
     </div>
   );
 }
