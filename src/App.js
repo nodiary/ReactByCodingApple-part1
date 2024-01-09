@@ -157,4 +157,23 @@ function Modal(props){ //대문자 시작
   );
 }
 
+class Modal2 extends React.Component {
+  constructor(props){
+    super(props)
+    // state 만드려면..
+    this.state = {
+      name : 'kim',
+      age : 20
+    }
+  }
+  render(){
+    return (
+      <div>안녕 {this.state.name} 
+        <button onClick={ () => {
+          this.setState({age : 31})
+        }}>버튼</button>
+      </div>
+    )
+  }
+}
 export default App;
