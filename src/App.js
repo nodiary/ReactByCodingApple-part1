@@ -9,9 +9,19 @@ function App() {
   let post = '강남 우동 맛집';
   let [글제목, 제목변경] = useState(['남자 코트 추천', '강남 우동 맛집', '데이트 코스 추천']);
   let [따봉, 따봉변경] = useState([0,0,0]);
+  let [발행일, set발행일] = useState(['2월 5일 발행', '2월 6일 발행', '2월 7일 발행']);
+
   let [modal, setModal] = useState(false);
   let [입력값, set입력값] = useState('');
-
+  function BoardObj(제목) {
+    this.제목 = 제목;
+    this.따봉 = 0;
+    const date = new Date();
+    const issueDate = (date.getMonth()+1) + '월 ' + date.getDate() + '일 발행';
+    this.발행일 = issueDate;
+  }
+  
+  let [boardObjList, setBoardObjList] = useState([new BoardObj('남자 코트 추천'), new BoardObj('강남 우동 맛집'), new BoardObj('데이트 코스 추천') ]);
   return (
     <div className="App">
       <div className="black-nav">
@@ -33,23 +43,52 @@ function App() {
       }}>변경버튼</button>
 
       {
-        글제목.map(function(e,idx){
+        // v1
+        // 글제목.map(function(e,idx){
+        //   return (
+        //     <div className="list" key={idx}>
+        //     <h4 onClick={()=>{setModal(!modal)}}>{ 글제목[idx] } 
+        //       <span onClick={ (e)=>{
+        //         e.stopPropagation();
+        //         let copy = [...따봉];
+        //         copy[idx] = copy[idx] + 1;
+        //         따봉변경(copy)
+        //         } }>👍
+        //       </span> {따봉[idx]}
+        //     </h4> 
+        //     <p>{ 발행일[idx] }</p> 
+        //     <button onClick={ (e) => {
+        //       let copy = [...글제목];
+        //       let likeCountCopy = [...따봉];
+        //       let issueDateCopy = [...발행일];
+        //       copy.splice(idx, 1);
+        //       likeCountCopy.splice(idx, 1);
+        //       issueDateCopy.splice(idx, 1);
+        //       제목변경(copy);
+        //       따봉변경(likeCountCopy);
+        //       set발행일(issueDateCopy);
+        //     }}>삭제</button>
+        //     </div>
+        //   )
+        // })
+        // v2 ()
+        boardObjList.map(function(obj,idx){
           return (
             <div className="list" key={idx}>
-            <h4 onClick={()=>{setModal(!modal)}}>{ 글제목[idx] } 
+            <h4 onClick={()=>{setModal(!modal)}}>{ obj.제목 } 
               <span onClick={ (e)=>{
                 e.stopPropagation();
-                let copy = [...따봉];
-                copy[idx] = copy[idx] + 1;
-                따봉변경(copy)
+                let copy = [...boardObjList];
+                copy[idx].따봉 = copy[idx].따봉 + 1;
+                setBoardObjList(copy);
                 } }>👍
-              </span> {따봉[idx]}
+              </span> {obj.따봉}
             </h4> 
-            <p>2월 17일 발행</p> 
+            <p>{ obj.발행일 }</p> 
             <button onClick={ (e) => {
-              let copy = [...글제목];
+              let copy = [...boardObjList];
               copy.splice(idx, 1);
-              제목변경(copy);
+              setBoardObjList(copy);
             }}>삭제</button>
             </div>
           )
@@ -62,9 +101,25 @@ function App() {
       }} />
       <button onClick={ () => {
         if(!입력값 || 입력값 == ' ') return;
-        let copy = [...글제목];
-        copy.unshift(입력값);
-        제목변경(copy);
+        // v1
+        // let titleCopy = [...글제목];
+        // let likeCountCopy = [...따봉];
+        // let issueDateCopy = [...발행일];
+
+        // titleCopy.unshift(입력값);
+        // likeCountCopy.unshift(0);
+
+        // let date = new Date();
+        // let newIssueDate = (date.getMonth()+1) + '월 ' + date.getDate() + '일 발행';
+        // issueDateCopy.unshift(newIssueDate);
+        // 제목변경(titleCopy);
+        // 따봉변경(likeCountCopy);
+        // set발행일(issueDateCopy);
+
+        // v2
+        let copy = [...boardObjList];
+        copy.unshift(new BoardObj(입력값));
+        setBoardObjList(copy);
       } }>발행</button>
       {
         modal == true ? <Modal 글제목={글제목} 변경={() => {
