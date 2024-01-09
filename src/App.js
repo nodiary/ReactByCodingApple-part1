@@ -9,7 +9,7 @@ function App() {
   let post = '강남 우동 맛집';
   let [글제목, 제목변경] = useState(['남자 코트 추천', '강남 우동 맛집', '데이트 코스 추천']);
   let [따봉, 따봉변경] = useState(0);
- 
+  let [modal, setModal] = useState(false);
 
   return (
     <div className="App">
@@ -42,15 +42,23 @@ function App() {
       </div>
 
       <div className="list">
-        <h4>{ 글제목[2] }</h4>
+        <h4 onClick={()=>{setModal(!modal)}}>{ 글제목[2] }</h4>
         <p>2월 17일 발행</p>
       </div>
-
-      <Modal></Modal>
+      {
+        modal == true ? <Modal></Modal> : null
+      }
 
     </div>
   );
 }
+/*
+  -동적 UI 만드는 단계
+  1.html css로 미리 디자인 완성
+  2. UI의 현재 상태를 state로 저장
+  3. state에 따라 UI가 어떻게 보일지 작성
+*/
+
 /* 
   1. 반복되는 html을 축약할 때
   2. 큰 페이지들
