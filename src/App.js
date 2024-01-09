@@ -10,7 +10,7 @@ function App() {
   let [글제목, 제목변경] = useState(['남자 코트 추천', '강남 우동 맛집', '데이트 코스 추천']);
   let [따봉, 따봉변경] = useState([0,0,0]);
   let [modal, setModal] = useState(false);
-
+  let [입력값, set입력값] = useState('');
 
   return (
     <div className="App">
@@ -36,19 +36,36 @@ function App() {
         글제목.map(function(e,idx){
           return (
             <div className="list" key={idx}>
-            <h4 onClick={()=>{setModal(!modal)}}>{ 글제목[idx] } </h4>
-            <span onClick={ ()=>{
+            <h4 onClick={()=>{setModal(!modal)}}>{ 글제목[idx] } 
+              <span onClick={ (e)=>{
+                e.stopPropagation();
                 let copy = [...따봉];
                 copy[idx] = copy[idx] + 1;
                 따봉변경(copy)
                 } }>👍
-              </span> {따봉[idx]} 
-              <p>2월 17일 발행</p>
+              </span> {따봉[idx]}
+            </h4> 
+            <p>2월 17일 발행</p> 
+            <button onClick={ (e) => {
+              let copy = [...글제목];
+              copy.splice(idx, 1);
+              제목변경(copy);
+            }}>삭제</button>
             </div>
           )
         })
       }
 
+      <input onChange={(e)=>{ 
+        set입력값(e.target.value); 
+        console.log(입력값);
+      }} />
+      <button onClick={ () => {
+        if(!입력값 || 입력값 == ' ') return;
+        let copy = [...글제목];
+        copy.unshift(입력값);
+        제목변경(copy);
+      } }>발행</button>
       {
         modal == true ? <Modal 글제목={글제목} 변경={() => {
           let copy = [...글제목];
