@@ -36,9 +36,7 @@ function App() {
         글제목.map(function(e,idx){
           return (
             <div className="list" key={idx}>
-            <h4 onClick={()=>{setModal(!modal)}}>{ 글제목[idx] } 
-              
-            </h4>
+            <h4 onClick={()=>{setModal(!modal)}}>{ 글제목[idx] } </h4>
             <span onClick={ ()=>{
                 let copy = [...따봉];
                 copy[idx] = copy[idx] + 1;
@@ -52,7 +50,11 @@ function App() {
       }
 
       {
-        modal == true ? <Modal></Modal> : null
+        modal == true ? <Modal 글제목={글제목} 변경={() => {
+          let copy = [...글제목];
+          copy[0] = '여자 코트 추천';
+          제목변경(copy);
+        }}></Modal> : null
       }
 
     </div>
@@ -71,12 +73,14 @@ function App() {
   3. 자주 변경되는 것들
    -> 컴포넌트로 만들면 좋다.
 */
-function Modal(){ //대문자 시작
+function Modal(props){ //대문자 시작
+
   return (
-    <div className="modal">
-      <h4>제목</h4>
+    <div className="modal" >
+      <h4>{props.글제목[0]}</h4>
       <p>날짜</p>
       <p>상세내용</p>
+      <button onClick={props.변경}>글수정</button>
     </div>
   );
 }
